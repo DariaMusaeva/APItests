@@ -7,24 +7,8 @@
 	},
 	"item": [
 		{
-			"name": "Add a new pet to the store Copy",
+			"name": "Add a new pet to the store",
 			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"var id = Math.floor(Math.random()*1000) +1;\r",
-							"var catId = Math.floor(Math.random()*100) +1;\r",
-							"var tag1Id = Math.floor(Math.random()*10) +1;\r",
-							"var tag2Id = Math.floor(Math.random()*10) +1;\r",
-							"pm.collectionVariables.set('id', id);\r",
-							"pm.collectionVariables.set('catId', catId);\r",
-							"pm.collectionVariables.set('tag1Id', tag1Id);\r",
-							"pm.collectionVariables.set('tag2Id', tag2Id);"
-						],
-						"type": "text/javascript"
-					}
-				},
 				{
 					"listen": "test",
 					"script": {
@@ -32,8 +16,21 @@
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"\r",
 							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set('id', Math.floor(Math.random()*1000));\r",
+							"pm.collectionVariables.set('catId', Math.floor(Math.random()*100));\r",
+							"pm.collectionVariables.set('tag1Id', Math.floor(Math.random()*10));\r",
+							"pm.collectionVariables.set('tag2Id', Math.floor(Math.random()*10));\r",
+							"\r",
+							"postman.setNextRequest(\"uploads an image\");"
 						],
 						"type": "text/javascript"
 					}
@@ -69,7 +66,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"id\": {{id}},\n  \"category\": {\n    \"id\": {{catId}},\n    \"name\": \"cat\"\n  },\n  \"name\": \"kot\",\n  \"photoUrls\": [\n    \"https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdnn1.ukraina.ru%2Fimg%2F07e6%2F0c%2F02%2F1041436899_0%3A206%3A2905%3A1840_1920x0_80_0_0_c7022893b761781d76fe592010d14bd2.jpg&tbnid=oumJ1Fg-rRTfFM&vet=12ahUKEwiX84Srm6qCAxW2GhAIHZxaDeMQMygCegQIARBz..i&imgrefurl=https%3A%2F%2Fukraina.ru%2F20221202%2F1041437109.html&docid=CiWraHzdnIpAGM&w=1920&h=1079&q=%D0%BA%D0%BE%D1%82&ved=2ahUKEwiX84Srm6qCAxW2GhAIHZxaDeMQMygCegQIARBz\"\n  ],\n  \"tags\": [\n    {\n      \"id\": {{tag1Id}},\n      \"name\": \"redhead\"\n    },\n    {\n      \"id\": {{tag2Id}},\n      \"name\": \"angry\"\n    }\n  ],\n  \"status\": \"available\"\n}",
+					"raw": "{\n  \"id\": {{id}},\n  \"category\": {\n    \"id\": {{catId}},\n    \"name\": \"cat\"\n  },\n  \"name\": \"kot\",\n  \"photoUrls\": [\n    \"{{$randomAnimalsImage}}\"\n  ],\n  \"tags\": [\n    {\n      \"id\": {{tag1Id}},\n      \"name\": \"redhead\"\n    },\n    {\n      \"id\": {{tag2Id}},\n      \"name\": \"angry\"\n    }\n  ],\n  \"status\": \"available\"\n}",
 					"options": {
 						"raw": {
 							"headerFamily": "json",
@@ -97,7 +94,7 @@
 			"response": []
 		},
 		{
-			"name": "uploads an image Copy",
+			"name": "uploads an image",
 			"event": [
 				{
 					"listen": "test",
@@ -114,7 +111,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"postman.setNextRequest(\"Updates a pet in the store with form data Copy\");"
+							"postman.setNextRequest(\"Updates a pet in the store with form data\");"
 						],
 						"type": "text/javascript"
 					}
@@ -181,7 +178,7 @@
 			"response": []
 		},
 		{
-			"name": "Deletes a pet Copy",
+			"name": "Deletes a pet",
 			"event": [
 				{
 					"listen": "test",
@@ -248,7 +245,7 @@
 			"response": []
 		},
 		{
-			"name": "Updates a pet in the store with form data Copy",
+			"name": "Updates a pet in the store with form data",
 			"event": [
 				{
 					"listen": "test",
@@ -265,7 +262,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"postman.setNextRequest(\"Finds Pets by tags Copy\");"
+							"postman.setNextRequest(\"Finds Pets by tags\");"
 						],
 						"type": "text/javascript"
 					}
@@ -328,7 +325,7 @@
 			"response": []
 		},
 		{
-			"name": "Finds Pets by tags Copy",
+			"name": "Finds Pets by tags",
 			"event": [
 				{
 					"listen": "test",
@@ -337,10 +334,10 @@
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"pm.test(\"Body matches string\", function () {\r",
+							"pm.test(\"Should find new name\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"leya\");\r",
 							"});\r",
-							"pm.test(\"Body matches string\", function () {\r",
+							"pm.test(\"Should find new status\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"sold\");\r",
 							"});"
 						],
@@ -351,7 +348,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"postman.setNextRequest(\"Deletes a pet Copy\");"
+							"postman.setNextRequest(\"Deletes a pet\");"
 						],
 						"type": "text/javascript"
 					}
